@@ -1,0 +1,17 @@
+$basepath src/sglua/
+$output out/my-preferences.pk3
+
+# build script for addfilelocal use
+
+Lua/Utils/libsg2.lua
+Lua/Utils/freeslotstuff.lua
+Lua/Utils/fixdisplayplayers.lua
+Lua/HUD/**
+Lua/Customization/restat.lua
+Lua/Gameplay/MiscTweaks/fastrespawn.lua
+Lua/Gameplay/MiscTweaks/fastspindash.lua
+Lua/Gameplay/MiscTweaks/respawn.lua
+Lua/Gameplay/Physics/slopes.lua
+Lua/Server/unrestrictskins.lua
+Graphics/**
+README.txt

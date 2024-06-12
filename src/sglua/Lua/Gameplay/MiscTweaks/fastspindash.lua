@@ -1,3 +1,11 @@
+local cv_fastspindashposition = CV_RegisterVar {
+    name = "fastspindashposition",
+    defaultvalue = "Off",
+    possiblevalue = CV_OnOff,
+    flags = CV_NETVAR,
+    description = "Makes spindash faster if player has less rings during position"
+}
+
 local cv_fastspindash = CV_RegisterVar {
     name = "fastspindash",
     defaultvalue = "On",
@@ -63,7 +71,7 @@ local function shouldPlaySpindashSound(chargetime)
 end
 
 addHook("PlayerThink", function(p)
-    if cv_fastspindash.value and p.spindash and p.rings > 0 then
+    if ((cv_fastspindash.value and leveltime > starttime) or (cv_fastspindashposition.value and leveltime <= starttime)) and p.spindash and p.rings > 0 then
         local MAXCHARGETIME = K_GetSpindashChargeTime(p)
 
         p.spindashbonus = ($ or 0) + spindashBonusChargeRate(p)

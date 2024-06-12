@@ -52,15 +52,16 @@ local cv_colorizedhud
 local cv_colorizedhudcolor
 
 local function useColorizedHud(v)
-	return v.useColorHud and v.useColorHud() ~= (cv_driftgaugecolorized.value == 1) or (not v.useColorHud and (cv_driftgaugecolorized.value == 1))
+	return v.useColorHud and v.useColorHud() ~= (cv_driftgaugecolorized.value == 1) or (not v.useColorHud and cv_driftgaugecolorized.value == 1)
 end
 
-local function getBackgroundPatch(v)
-    return v.cachePatch(useColorizedHud(v) and "K_NDGAUC" or "K_NDGAU")
+local function getBackgroundPatch(v, p)
+    return v.cachePatch((useColorizedHud(v) or (p.trickcharge and (leveltime%10) >= 5)) and "K_NDGAUC" or "K_NDGAU")
 end
 
+-- Partly copied and edited from the other Driftgauge port
 local function getBackgroundColormap(v, p)
-	return useColorizedHud(v) and v.getColormap(TC_RAINBOW, v.getHudColor and v.getHudColor() or p.skincolor) or nil
+	return (p.trickcharge and (leveltime%10) >= 5) and v.getColormap(TC_DEFAULT,SKINCOLOR_BLUE) or useColorizedHud(v) and v.getColormap(TC_RAINBOW, v.getHudColor and v.getHudColor() or p.skincolor) or nil
 end
 
 local function stringdraw(v, x, y, str, flags, colormap)
@@ -124,11 +125,11 @@ hud.add(function(v, p, c)
 	end
 
 	-- the base graphic
-	v.drawScaled(basex, basey, FRACUNIT, getBackgroundPatch(v), drifttrans, getBackgroundColormap(v, p))
+	v.drawScaled(basex, basey, FRACUNIT, getBackgroundPatch(v, p), drifttrans, getBackgroundColormap(v, p))
 	if rainbow then
 		-- HOT HOT HOT HOT HOOOOOOOT AAAAIIIIIIIIEEEEEEEEEEEEEEEEE
 		local trans = abs(sin(leveltime*ANGLE_22h)/(4*FRACUNIT/10))
-		v.drawScaled(basex, basey, FRACUNIT, getBackgroundPatch(v), V_90TRANS - V_10TRANS*trans, v.getColormap(TC_BLINK, SKINCOLOR_RED))
+		v.drawScaled(basex, basey, FRACUNIT, getBackgroundPatch(v, p), V_90TRANS - V_10TRANS*trans, v.getColormap(TC_BLINK, SKINCOLOR_RED))
 	end
 
 	local barx = basex - 22*FRACUNIT
