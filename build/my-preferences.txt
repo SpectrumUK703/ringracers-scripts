@@ -8,6 +8,7 @@ Lua/Utils/freeslotstuff.lua
 Lua/Utils/fixdisplayplayers.lua
 Lua/HUD/**
 Lua/Customization/restat.lua
+Lua/Gameplay/Items/shrink.lua
 Lua/Gameplay/MiscTweaks/fastrespawn.lua
 Lua/Gameplay/MiscTweaks/fastspindash.lua
 Lua/Gameplay/MiscTweaks/respawn.lua
